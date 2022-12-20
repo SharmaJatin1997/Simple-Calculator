@@ -8,6 +8,11 @@ class Calculator extends StatelessWidget {
   final firstController = TextEditingController();
   final secController = TextEditingController();
   RxDouble value = RxDouble(0.0);
+  RxBool isAdd = RxBool(false);
+  RxBool isSub = RxBool(false);
+  RxBool isMulti = RxBool(false);
+  RxBool isDivide = RxBool(false);
+  RxBool isPercent = RxBool(false);
 
   @override
   Widget build(BuildContext context) {
@@ -57,73 +62,106 @@ class Calculator extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        value.value = Formula.add(
-                            double.parse(firstController.text),
-                            double.parse(secController.text));
-
-                        FocusManager.instance.primaryFocus?.unfocus();
+                        if (firstController.text.isNotEmpty &&
+                            secController.text.isNotEmpty) {
+                          value.value = Formula.add(
+                              double.parse(firstController.text),
+                              double.parse(secController.text));
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          isAdd.value = true;
+                          isSub.value = false;
+                          isMulti.value = false;
+                          isDivide.value = false;
+                          isPercent.value = false;
+                        }
                       },
-                      child: Container(
-                        width: 100,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Center(
-                          child: Text(
-                            "Add",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
+                      child: Obx(
+                        () => Container(
+                          width: 100,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color:
+                                  isAdd.isFalse ? Colors.blue : Colors.blueGrey,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Center(
+                            child: Text(
+                              "Add",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ),
                       ),
                     ),
                     GestureDetector(
                       onTap: () {
-                        value.value = Formula.subtract(
-                            double.parse(firstController.text),
-                            double.parse(secController.text));
-                        FocusManager.instance.primaryFocus?.unfocus();
+                        if (firstController.text.isNotEmpty &&
+                            secController.text.isNotEmpty) {
+                          value.value = Formula.subtract(
+                              double.parse(firstController.text),
+                              double.parse(secController.text));
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          isAdd.value = false;
+                          isSub.value = true;
+                          isMulti.value = false;
+                          isDivide.value = false;
+                          isPercent.value = false;
+                        }
                       },
-                      child: Container(
-                        width: 100,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Center(
-                          child: Text(
-                            "Subtract",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
+                      child: Obx(
+                        () => Container(
+                          width: 100,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color:
+                                  isSub.isFalse ? Colors.blue : Colors.blueGrey,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Center(
+                            child: Text(
+                              "Subtract",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ),
                       ),
                     ),
                     GestureDetector(
                       onTap: () {
-                        value.value = Formula.multiply(
-                            double.parse(firstController.text),
-                            double.parse(secController.text));
-                        FocusManager.instance.primaryFocus?.unfocus();
+                        if (firstController.text.isNotEmpty &&
+                            secController.text.isNotEmpty) {
+                          value.value = Formula.multiply(
+                              double.parse(firstController.text),
+                              double.parse(secController.text));
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          isAdd.value = false;
+                          isSub.value = false;
+                          isMulti.value = true;
+                          isDivide.value = false;
+                          isPercent.value = false;
+                        }
                       },
-                      child: Container(
-                        width: 100,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Center(
-                          child: Text(
-                            "Multiply",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
+                      child: Obx(
+                        () => Container(
+                          width: 100,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: isMulti.isFalse
+                                  ? Colors.blue
+                                  : Colors.blueGrey,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Center(
+                            child: Text(
+                              "Multiply",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ),
                       ),
@@ -139,24 +177,36 @@ class Calculator extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        value.value = Formula.divide(
-                            double.parse(firstController.text),
-                            double.parse(secController.text));
-                        FocusManager.instance.primaryFocus?.unfocus();
+                        if (firstController.text.isNotEmpty &&
+                            secController.text.isNotEmpty) {
+                          value.value = Formula.divide(
+                              double.parse(firstController.text),
+                              double.parse(secController.text));
+                          isAdd.value = false;
+                          isSub.value = false;
+                          isMulti.value = false;
+                          isDivide.value = true;
+                          isPercent.value = false;
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        }
                       },
-                      child: Container(
-                        width: 100,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Center(
-                          child: Text(
-                            "Divide",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
+                      child: Obx(
+                        () => Container(
+                          width: 100,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: isDivide.isFalse
+                                  ? Colors.blue
+                                  : Colors.blueGrey,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Center(
+                            child: Text(
+                              "Divide",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ),
                       ),
@@ -167,7 +217,13 @@ class Calculator extends StatelessWidget {
                         onTap: () {
                           if (firstController.text.isNotEmpty &&
                               secController.text.isNotEmpty) {
+                            isAdd.value = false;
+                            isSub.value = false;
+                            isMulti.value = false;
+                            isDivide.value = false;
+                            isPercent.value = true;
                             showDialog(
+                                barrierDismissible: false,
                                 context: Get.context!,
                                 builder: (context) {
                                   return Dialog(
@@ -201,9 +257,14 @@ class Calculator extends StatelessWidget {
                                                 children: [
                                                   GestureDetector(
                                                     onTap: () {
-                                                      value.value = Formula.addPercentage(
-                                                          double.parse(firstController.text),
-                                                          double.parse(secController.text));
+                                                      value.value =
+                                                          Formula.addPercentage(
+                                                              double.parse(
+                                                                  firstController
+                                                                      .text),
+                                                              double.parse(
+                                                                  secController
+                                                                      .text));
                                                       Get.back();
                                                       FocusManager
                                                           .instance.primaryFocus
@@ -238,9 +299,15 @@ class Calculator extends StatelessWidget {
                                                         horizontal: 15),
                                                     child: GestureDetector(
                                                       onTap: () {
-                                                        value.value = value.value = Formula.subtractPercentage(
-                                                            double.parse(firstController.text),
-                                                            double.parse(secController.text));
+                                                        value.value = value
+                                                                .value =
+                                                            Formula.subtractPercentage(
+                                                                double.parse(
+                                                                    firstController
+                                                                        .text),
+                                                                double.parse(
+                                                                    secController
+                                                                        .text));
                                                         Get.back();
                                                         FocusManager.instance
                                                             .primaryFocus
@@ -278,15 +345,20 @@ class Calculator extends StatelessWidget {
                                                   top: 10.0),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                                    MainAxisAlignment.center,
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   GestureDetector(
                                                     onTap: () {
-                                                      value.value = Formula.multiplyPercentage(
-                                                          double.parse(firstController.text),
-                                                          double.parse(secController.text));
+                                                      value.value = Formula
+                                                          .multiplyPercentage(
+                                                              double.parse(
+                                                                  firstController
+                                                                      .text),
+                                                              double.parse(
+                                                                  secController
+                                                                      .text));
                                                       Get.back();
                                                       FocusManager
                                                           .instance.primaryFocus
@@ -298,32 +370,38 @@ class Calculator extends StatelessWidget {
                                                       decoration: BoxDecoration(
                                                           color: Colors.blue,
                                                           borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              10)),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10)),
                                                       child: const Center(
                                                         child: Text(
                                                           "Multiply",
                                                           style: TextStyle(
                                                               color:
-                                                              Colors.white,
+                                                                  Colors.white,
                                                               fontSize: 18,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w600),
+                                                                  FontWeight
+                                                                      .w600),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding: const EdgeInsets
-                                                        .symmetric(
+                                                            .symmetric(
                                                         horizontal: 15),
                                                     child: GestureDetector(
                                                       onTap: () {
-                                                        value.value = value.value = Formula.dividePercentage(
-                                                            double.parse(firstController.text),
-                                                            double.parse(secController.text));
+                                                        value.value = value
+                                                                .value =
+                                                            Formula.dividePercentage(
+                                                                double.parse(
+                                                                    firstController
+                                                                        .text),
+                                                                double.parse(
+                                                                    secController
+                                                                        .text));
                                                         Get.back();
                                                         FocusManager.instance
                                                             .primaryFocus
@@ -335,9 +413,9 @@ class Calculator extends StatelessWidget {
                                                         decoration: BoxDecoration(
                                                             color: Colors.blue,
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                10)),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
                                                         child: const Center(
                                                           child: Text(
                                                             "Divide",
@@ -346,8 +424,8 @@ class Calculator extends StatelessWidget {
                                                                     .white,
                                                                 fontSize: 18,
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .w600),
+                                                                    FontWeight
+                                                                        .w600),
                                                           ),
                                                         ),
                                                       ),
@@ -362,19 +440,23 @@ class Calculator extends StatelessWidget {
                                 });
                           }
                         },
-                        child: Container(
-                          width: 100,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: const Center(
-                            child: Text(
-                              "Percentage",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600),
+                        child: Obx(
+                          () => Container(
+                            width: 100,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: isPercent.isFalse
+                                    ? Colors.blue
+                                    : Colors.blueGrey,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: const Center(
+                              child: Text(
+                                "Percentage",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600),
+                              ),
                             ),
                           ),
                         ),
